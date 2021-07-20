@@ -48,10 +48,7 @@ function ProfileRelationsBox(propriedades){
 
 export default function Home() {
   const githubUser = 'luizfelper';
-  const [comunidades, setComunidades] = React.useState([{
-    title: 'Eu odeio acordar cedo',
-    image: 'https://alurakut.vercel.app/capa-comunidade-01.jpg',
-  }]);
+  const [comunidades, setComunidades] = React.useState([]);
  /* const comunidades = ['Alurakut']; */
  /* const alteradorDeComunidade = comunidades[1]; */
   const pessoasFavoritas =['juunegreiros',
@@ -65,13 +62,42 @@ export default function Home() {
   const [seguidores, setSeguidores] = React.useState([]);
   // 0 - Pegar o array de dados do github
     React.useEffect(function() {
+      // GET
       fetch('https://api.github.com/users/omariosouto/followers')
         .then(function (respostaDoServidor) {
           return respostaDoServidor.json();
       })
         .then(function (respostaCompleta) {
           setSeguidores(respostaCompleta);
-      })    
+      })
+
+      //API GraphQL
+      fetch('https://graphql.datocms.com/', {
+        method: 'POST',
+        headers: {
+          'Authorization' : 'e945a0b1d22509980db5af89d719e2',
+          'Content-Type' : 'application/json',
+          'Accept' : 'application/json',
+        },
+        body: JSON.stringify({ "query": `query {
+          allCommunities {
+            id,
+            title,
+            imageUrl,
+            creatorSlug,
+          }
+        }` })
+      })
+      .then((response) => response.json()) // Pega o rtorno do response.json() e ja retorna o resultado (Idéia do Arrow Function)
+      /* .then(function (response) {
+        return response.json()
+      }) */
+      .then((respostaCompleta) => {
+        const comunidadesVindasDoDato = respostaCompleta.data.allCommunities;
+        console.log(comunidadesVindasDoDato)
+        setComunidades(comunidadesVindasDoDato)
+      })
+
     }, [])
 
     console.log(seguidores);
@@ -160,9 +186,9 @@ export default function Home() {
             <ul>
               {comunidades.map((itemAtual) => {
                 return (
-                  <li>
-                    <a href={`${itemAtual.title}`} key={itemAtual.title}>
-                        <img src={`${itemAtual.image}`} />
+                  <li key={itemAtual.id}>
+                    <a href={`/communities/${itemAtual.id}`}>
+                        <img src={itemAtual.imageUrl} />
                         <span>{itemAtual.title}</span>
                     </a>
                   </li>
