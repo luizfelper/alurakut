@@ -1,5 +1,7 @@
 /* import styled from 'styled-components' */
 import React from 'react';
+import nookies from 'nookies';
+import jwt from 'jsonwebtoken';
 import MainGrid from '../src/components/MainGrid'
 import Box from '../src/components/Box'
 import { AlurakutMenu, AlurakutProfileSidebarMenuDefault, OrkutNostalgicIconSet } from '../src/lib/AlurakutCommons'
@@ -7,14 +9,14 @@ import { ProfileRelationsBoxWrapper } from '../src/components/ProfileRelations';
 
 function ProfileSideBar(propriedades) {
   return (
-    <Box>
+    <Box as="aside">
       <img src={`https://github.com/${propriedades.githubUser}.png`} style={{ borderRadius: '8px' }} />
       <hr />
 
       <p>
-        <a className="boxLink" href={`https://github.com/${propriedades.githubUser}`} />
+        <a className="boxLink" href={`https://github.com/${propriedades.githubUser}`} >
         @{propriedades.githubUser}
-        <a/>
+        </a>
       </p>
       <hr />
 
@@ -29,25 +31,13 @@ function ProfileRelationsBox(propriedades){
           <h2 className="smallTitle">
             {propriedades.title} ({propriedades.items.length})
           </h2>
-          <ul>
-           {/*  {seguidores.map((itemAtual) => {
-              return (
-                <li>
-                  <a href={`https://github.com/${itemAtual}.png`} key={itemAtual}>
-                      <img src={{itemAtual}.image} />
-                      <span>{itemAtual.title}</span>
-                  </a>
-                </li>
-              )
-            })} */}
-          </ul>
         </ProfileRelationsBoxWrapper>
   )
 }
 
 
-export default function Home() {
-  const githubUser = 'luizfelper';
+export default function Home(props) {
+  const githubUser = props.githubUser; // props essa que está lá no final da página com o "Export Default"
   const [comunidades, setComunidades] = React.useState([]);
  /* const comunidades = ['Alurakut']; */
  /* const alteradorDeComunidade = comunidades[1]; */
@@ -100,11 +90,6 @@ export default function Home() {
 
     }, [])
 
-    /* console.log(seguidores); */
-
-
-  // 1 - Criar um box que vai ter um map, baseado nos items do array que pegamos do Github
-
 
   return (
     <>
@@ -117,7 +102,7 @@ export default function Home() {
         <div className="welcomeArea" style={{ gridArea: 'welcomeArea'}}>
           <Box>
             <h1 className="title">
-              Bem vindo(a)
+              Bem vindo(a), {githubUser}!
               </h1>
               <OrkutNostalgicIconSet />
           </Box>
@@ -213,4 +198,36 @@ export default function Home() {
       </MainGrid>
     </>
   )
+}
+
+
+
+export async function getServerSideProps(context) {
+  const cookies = nookies.get(context)
+  const token = cookies.USER_TOKEN;
+
+  const { isAuthenticated } = await fetch('https://alurakut.vercel.app/api/auth', {
+    headers: {
+      Authorization: token
+    }
+  })
+  .then((resposta) => resposta.json())
+  
+  console.log('isAuthenticated', isAuthenticated);
+
+  if(!isAuthenticated) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      }
+    }
+  }
+
+  const { githubUser } = jwt.decode(token);
+      return {
+          props: {
+              githubUser
+          },
+      }
 }
