@@ -94,13 +94,13 @@ export default function Home() {
       }) */
       .then((respostaCompleta) => {
         const comunidadesVindasDoDato = respostaCompleta.data.allCommunities;
-        console.log(comunidadesVindasDoDato)
+        /* console.log(comunidadesVindasDoDato) */
         setComunidades(comunidadesVindasDoDato)
       })
 
     }, [])
 
-    console.log(seguidores);
+    /* console.log(seguidores); */
 
 
   // 1 - Criar um box que vai ter um map, baseado nos items do array que pegamos do Github
@@ -131,11 +131,24 @@ export default function Home() {
 
             const comunidade = {
               title: dadosDoForm.get('title'),
-              image: dadosDoForm.get('image'),
+              imageUrl: dadosDoForm.get('image'),
+              creatorSlug: githubUser,
             }
 
-            const comunidadesAtualizadas = [...comunidades, comunidade]
-            setComunidades(comunidadesAtualizadas);
+            fetch('/api/comunidades', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(comunidade),
+            })
+            .then(async (response) => {
+              const dados = await response.json();
+              console.log(dados.registroCriado);
+              const comunidade = dados.registroCriado;
+              const comunidadesAtualizadas = [...comunidades, comunidade];
+              setComunidades(comunidadesAtualizadas);
+            })
           }}>
             <div>
               <input placeholder="Qual vai ser o nome da sua comunidade?"
