@@ -1,4 +1,3 @@
-/* import styled from 'styled-components' */
 import React from 'react';
 import nookies from 'nookies';
 import jwt from 'jsonwebtoken';
@@ -37,7 +36,7 @@ function ProfileRelationsBox(propriedades){
 
 
 export default function Home(props) {
-  const githubUser = props.githubUser; // props essa que está lá no final da página com o "Export Default"
+  const usuarioAleatorio = props.githubUser; // props essa que está lá no final da página com o "Export Default"
   const [comunidades, setComunidades] = React.useState([]);
  /* const comunidades = ['Alurakut']; */
  /* const alteradorDeComunidade = comunidades[1]; */
@@ -97,12 +96,12 @@ export default function Home(props) {
       <MainGrid>
         {/* <Box style="grid-area: profileArea;"> Transforma a estilização mais dinâmica. Ex.: (#box {grid-area: profileArea;}) Fica: style={{ gridArea: 'profileArea'}} */} 
         <div className="profileArea" style={{ gridArea: 'profileArea'}}>
-        <ProfileSideBar githubUser={githubUser} />
+        <ProfileSideBar githubUser={usuarioAleatorio} />
         </div>
         <div className="welcomeArea" style={{ gridArea: 'welcomeArea'}}>
           <Box>
             <h1 className="title">
-              Bem vindo(a), {githubUser}!
+              Bem vindo(a), {usuarioAleatorio}!
               </h1>
               <OrkutNostalgicIconSet />
           </Box>
@@ -163,7 +162,7 @@ export default function Home(props) {
             <h2 className="smallTitle">
               Galera da comunidade ({pessoasFavoritas.length})
             </h2>
-            <ul>
+            <ul key="ulGaleraComunidade">
               {pessoasFavoritas.map((itemAtual) => {
                 return (
                   <li>
@@ -203,19 +202,8 @@ export default function Home(props) {
 
 
 export async function getServerSideProps(context) {
-  const cookies = nookies.get(context)
-  const token = cookies.USER_TOKEN;
-
-  const { isAuthenticated } = await fetch('https://alurakut.vercel.app/api/auth', {
-    headers: {
-      Authorization: token
-    }
-  })
-  .then((resposta) => resposta.json())
-  
-  console.log('isAuthenticated', isAuthenticated);
-
-  if(!isAuthenticated) {
+  const cookies = nookies.get(context);
+  if (!cookies.USER_TOKEN) {
     return {
       redirect: {
         destination: '/login',
@@ -224,10 +212,27 @@ export async function getServerSideProps(context) {
     }
   }
 
+  const token = cookies.USER_TOKEN;
+  const { isAuthenticated } = await fetch('https://alurakut.vercel.app/api/auth', {
+    headers: {
+      Authorization: token
+    }
+  })
+    .then((resposta) => resposta.json())
+
+  // if(!isAuthenticated) {
+  //   return {
+  //     redirect: {
+  //       destination: '/login',
+  //       permanent: false,
+  //     }
+  //   }
+  // }
+
   const { githubUser } = jwt.decode(token);
-      return {
-          props: {
-              githubUser
-          },
-      }
+  return {
+    props: {
+      githubUser
+    }, // will be passed to the page component as props
+  }
 }
