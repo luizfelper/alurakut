@@ -1,85 +1,49 @@
-# Example app with styled-components
+<h2 align="center">
+<a href="https://orcut.vercel.app/login" target="_blank" rel="noopener noreferrer" title="Site Alurakut"><img width="300" alt="Instalura" src="https://alurakut.vercel.app/logo.svg" /></a>
+</h2>
+O projeto é uma versão do Orkut, criado com React, Next/js e styled-components. Desenvolvido durante a Imersão React, o projeto é composto por 5 aulas, onde foram separados por etapas de aprendizado.
 
-This example features how you use a different styling solution than [styled-jsx](https://github.com/vercel/styled-jsx) that also supports universal styles. That means we can serve the required styles for the first render within the HTML and then load the rest in the client. In this case we are using [styled-components](https://github.com/styled-components/styled-components).
+<h3 align="center"><a href="https://orcut.vercel.app/login" target="_blank" rel="noopener noreferrer">Clique aqui para ver o andamento do projeto!</a><h3>
+<br>
 
-For this purpose we are extending the `<Document />` and injecting the server side rendered styles into the `<head>`, and also adding the `babel-plugin-styled-components` (which is required for server side rendering). Additionally we set up a global [theme](https://www.styled-components.com/docs/advanced#theming) for styled-components using NextJS custom [`<App>`](https://nextjs.org/docs/advanced-features/custom-app) component.
 
-## Preview
+## 💻 Linguagens e tecnologias utilizadas
+<p align="left"> <a href="#" target="_blank"> <img src="https://miro.medium.com/max/318/1*p1TndLk3UsGPBsM7qHPZIw.png" alt="css3" width="50" height="50"/> </a> <a href="https://www.w3schools.com/css/" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original-wordmark.svg" alt="css3" width="50" height="50"/> </a> <a href="https://www.w3.org/html/" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original-wordmark.svg" alt="html5" width="50" height="50"/> </a> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" alt="javascript" width="50" height="50"/> </a> <a href="https://reactjs.org/" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original-wordmark.svg" alt="react" width="50" height="50"/> </a> <a href="https://git-scm.com/" target="_blank"> <img src="https://www.vectorlogo.zone/logos/git-scm/git-scm-icon.svg" alt="git" width="50" height="50"/> </a> <a href="https://nextjs.org/" target="_blank"> <img src="https://raw.githubusercontent.com/samfromaway/samfromaway/master/.github/images/nextjs.png" alt="figma" width="50" height="50"/> </a> <a href="https://www.figma.com/" target="_blank"> <img src="https://www.vectorlogo.zone/logos/figma/figma-icon.svg" alt="figma" width="50" height="50"/> </a> </p>
+<br>
 
-Preview the example live on [StackBlitz](http://stackblitz.com/):
+## 🧠 Funcionalidades
+🔨 Em construção
+<br>
+<br>
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-styled-components)
+## 📋 Instalação
 
-## Deploy your own
+    - Clonar repositorio
+    $ git clone https://github.com/luizfelper/alurakut.git && cd orcut
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example):
+    - Instalar dependencias
+    $ npm install
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-styled-components&project-name=with-styled-components&repository-name=with-styled-components)
+    - Rodar aplicativo
+    $ npm run dev
 
-## How to use
+    - Acesse http://localhost:3000/ e navegue pelo site
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
+<a href="https://github.com/vercel/next.js/tree/canary/examples/with-styled-components" target="_blank" rel="noopener noreferrer">Example app with styled-components</a>
+<br>
 
-```bash
-npx create-next-app --example with-styled-components with-styled-components-app
-# or
-yarn create next-app --example with-styled-components with-styled-components-app
-```
+## 👩‍🏫/👨‍🏫 Instrutores do Bootcamp Alura
+- <a href="https://www.linkedin.com/in/omariosouto/">Mario Souto</a> <br>
+- <a href="https://www.linkedin.com/in/juliananegreiros/">Juliana Negreiros</a> <br>
+- <a href="https://www.alura.com.br">Grupo Alura</a> 
+<br>
 
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
-
-### Try it on CodeSandbox
-
-[Open this example on CodeSandbox](https://codesandbox.io/s/github/vercel/next.js/tree/canary/examples/with-styled-components)
-
-### Notes
-
-When wrapping a [Link](https://nextjs.org/docs/api-reference/next/link) from `next/link` within a styled-component, the [as](https://styled-components.com/docs/api#as-polymorphic-prop) prop provided by `styled` will collide with the Link's `as` prop and cause styled-components to throw an `Invalid tag` error. To avoid this, you can either use the recommended [forwardedAs](https://styled-components.com/docs/api#forwardedas-prop) prop from styled-components or use a different named prop to pass to a `styled` Link.
+## 📂 Referências
 
 <details>
-<summary>Click to expand workaround example</summary>
-<br />
+    <summary>Todas referências</summary>
 
-**components/StyledLink.js**
-
-```javascript
-import Link from 'next/link'
-import styled from 'styled-components'
-
-const StyledLink = ({ as, children, className, href }) => (
-  <Link href={href} as={as} passHref>
-    <a className={className}>{children}</a>
-  </Link>
-)
-
-export default styled(StyledLink)`
-  color: #0075e0;
-  text-decoration: none;
-  transition: all 0.2s ease-in-out;
-
-  &:hover {
-    color: #40a9ff;
-  }
-
-  &:focus {
-    color: #40a9ff;
-    outline: none;
-    border: 0;
-  }
-`
-```
-
-**pages/index.js**
-
-```javascript
-import StyledLink from '../components/StyledLink'
-
-export default () => (
-  <StyledLink href="/post/[pid]" forwardedAs="/post/abc">
-    First post
-  </StyledLink>
-)
-```
+    Next.js - https://nextjs.org/ <br>
+    Material UI - https://material-ui.com/pt/ <br>
 
 </details>
-"# alurakut" 
