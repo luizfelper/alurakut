@@ -24,77 +24,16 @@ function ProfileSideBar(propriedades) {
   )
 }
 
-function ProfileRelationsBox(propriedades){
-  return (
-        <ProfileRelationsBoxWrapper>
-          <h2 className="smallTitle">
-            {propriedades.title} ({propriedades.items.length})
-          </h2>
-        </ProfileRelationsBoxWrapper>
-  )
-}
-
-
-export default function Home(props) {
-  const usuarioAleatorio = props.githubUser; // props essa que está lá no final da página com o "Export Default" verificar aqui
-  const [comunidades, setComunidades] = React.useState([]);
- /* const comunidades = ['Alurakut']; */
- /* const alteradorDeComunidade = comunidades[1]; */
-  const pessoasFavoritas =['juunegreiros',
-  'omariosouto',
-  'rafaballerini',
-  'marcobrunodev',
-  'luizfelper',
-  'felipefialho'];
-
-
-  const [seguidores, setSeguidores] = React.useState([]);
-  // 0 - Pegar o array de dados do github
-    React.useEffect(function() {
-      // GET
-      fetch('https://api.github.com/users/omariosouto/followers')
-        .then(function (respostaDoServidor) {
-          return respostaDoServidor.json();
-      })
-        .then(function (respostaCompleta) {
-          setSeguidores(respostaCompleta);
-      })
-
-      //API GraphQL
-      fetch('https://graphql.datocms.com/', {
-        method: 'POST',
-        headers: {
-          'Authorization' : 'e945a0b1d22509980db5af89d719e2',
-          'Content-Type' : 'application/json',
-          'Accept' : 'application/json',
-        },
-        body: JSON.stringify({ "query": `query {
-          allCommunities {
-            id,
-            title,
-            imageUrl,
-            creatorSlug,
-          }
-        }` })
-      })
-      .then((response) => response.json()) // Pega o rtorno do response.json() e ja retorna o resultado (Idéia do Arrow Function)
-      /* .then(function (response) {
-        return response.json()
-      }) */
-      .then((respostaCompleta) => {
-        const comunidadesVindasDoDato = respostaCompleta.data.allCommunities;
-        /* console.log(comunidadesVindasDoDato) */
-        setComunidades(comunidadesVindasDoDato)
-      })
-
-    }, [])
-
+export default function Home() {
+  const usuarioAleatorio = 'luizfelper'
+  const [comunidades, setComunidades] = React.useState(['Eu odeio acordar cedo']);
+  const pessoasFavoritas = ['juunegreiros','omariosouto','rafaballerini','marcobrunodev','luizfelper','felipefialho'];
+  const [comentarios, setComentarios] = React.useState(['Este é um comentário']);
 
   return (
     <>
     <AlurakutMenu />
       <MainGrid>
-        {/* <Box style="grid-area: profileArea;"> Transforma a estilização mais dinâmica. Ex.: (#box {grid-area: profileArea;}) Fica: style={{ gridArea: 'profileArea'}} */} 
         <div className="profileArea" style={{ gridArea: 'profileArea'}}>
         <ProfileSideBar githubUser={usuarioAleatorio} />
         </div>
@@ -107,32 +46,12 @@ export default function Home(props) {
           </Box>
 
         <Box>
-
           <h2 className="subTitle">O que você deseja fazer?</h2>
           <form onSubmit={function handleCriarComunidade(e) {
             e.preventDefault();
-            const dadosDoForm = new FormData(e.target);
-
-            const comunidade = {
-              title: dadosDoForm.get('title'),
-              imageUrl: dadosDoForm.get('image'),
-              creatorSlug: githubUser,
-            }
-
-            fetch('/api/comunidades', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(comunidade),
-            })
-            .then(async (response) => {
-              const dados = await response.json();
-              console.log(dados.registroCriado);
-              const comunidade = dados.registroCriado;
-              const comunidadesAtualizadas = [...comunidades, comunidade];
-              setComunidades(comunidadesAtualizadas);
-            })
+            
+            const comunidadesAtualizadas = [...comunidades, 'Eu odeio acordar']
+            setComunidades(comunidadesAtualizadas);
           }}>
             <div>
               <input placeholder="Qual vai ser o nome da sua comunidade?"
@@ -152,15 +71,64 @@ export default function Home(props) {
           </form>
         </Box>
 
+        <Box>
+          <h2 className="subTitle">Enviar Comentário</h2>
+          <form onSubmit={function handleCriarComunidade(e) {
+            e.preventDefault();
+            
+            const comentariosAtualizados = [...comentarios, 'Comentário']
+            setComentarios(comentariosAtualizados);
+            console.log(comentariosAtualizados)
+          }}>
+            <div />
+            <div>
+              <input placeholder="Comentário..."
+              name="image"
+              aria-label="Comentário..."
+              type="text"
+              />
+            </div>
+            <button>Adicionar comentário</button>
+          </form>
+        </Box>
+
+        <Box> {/* Box dos Comentários */}
+          <h2 className="smallTitle">Comentários ({comentarios.length})</h2>
+          <div key="pComentários">
+            {comentarios.map((itemAtual) => {
+              return (
+                <p>Comentário: {itemAtual}</p>
+              )
+            })}
+          </div>
+        </Box>
+
 
         </div>
         <div className="profileRelationsArea" style={{ gridArea: 'profileRelationsArea'}}>
 
-        <ProfileRelationsBox title="Seguidores" items={seguidores}></ProfileRelationsBox>
 
-        <ProfileRelationsBoxWrapper>
+        <ProfileRelationsBoxWrapper> {/* Box das comunidades */}
+          <h2 className="smallTitle">
+                Comunidades ({comunidades.length})
+          </h2>
+          <ul key="ulComunidades">
+                {comunidades.map((itemAtual) => {
+                  return (
+                    <li>
+                      <a href={`/users/${itemAtual}`} key={itemAtual}>
+                          <img src={`http://placehold.it/150x150`} />
+                          <span>{itemAtual}</span>
+                      </a>
+                    </li>
+                  )
+                })}
+          </ul>
+        </ProfileRelationsBoxWrapper>
+
+          <ProfileRelationsBoxWrapper>
             <h2 className="smallTitle">
-              Galera da comunidade ({pessoasFavoritas.length})
+              Pessoas Favoritas ({pessoasFavoritas.length})
             </h2>
             <ul key="ulGaleraComunidade">
               {pessoasFavoritas.map((itemAtual) => {
@@ -176,54 +144,8 @@ export default function Home(props) {
             </ul>
           </ProfileRelationsBoxWrapper>
 
-          <ProfileRelationsBoxWrapper> {/* Box Comunidades */}
-            <h2 className="smallTitle">
-              Comunidades ({comunidades.length})
-            </h2>
-            <ul>
-              {comunidades.map((itemAtual) => {
-                return (
-                  <li key={itemAtual.id}>
-                    <a href={`/communities/${itemAtual.id}`}>
-                        <img src={itemAtual.imageUrl} />
-                        <span>{itemAtual.title}</span>
-                    </a>
-                  </li>
-                )
-              })}
-            </ul>
-          </ProfileRelationsBoxWrapper>
+          {/* <ProfileRelationsBoxWrapper /> */}
         </div>
       </MainGrid>
     </>
-  )
-}
-
-
-
-export async function getServerSideProps(context) {
-  const cookies = nookies.get(context)
-  const token = cookies.USER_TOKEN;
-  const { isAuthenticated } = await fetch('https://alurakut.vercel.app/api/auth', {
-    headers: {
-      Authorization: token
-    }
-  })
-    .then((resposta) => resposta.json())
-
-  if (!isAuthenticated) {
-    return {
-      redirect: {
-        destination: '/login',
-        permanent: false,
-      }
-    }
-  }
-
-  const { githubUser } = jwt.decode(token);
-  return {
-    props: {
-      githubUser
-    },
-  }
-}
+  )}
