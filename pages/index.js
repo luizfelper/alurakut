@@ -24,11 +24,37 @@ function ProfileSideBar(propriedades) {
   )
 }
 
+function AlurakutMenuProfileSidebar({ githubUser }) {
+  return (
+    <div className="alurakutMenuProfileSidebar">
+      <div>
+        <img src={`https://github.com/${githubUser}.png`} style={{ borderRadius: '8px' }} />
+        <hr />
+        <p>
+          <a className="boxLink" href={`/user/${githubUser}`}>
+            @{githubUser}
+          </a>
+        </p>
+        <hr />
+
+        <AlurakutProfileSidebarMenuDefault />
+      </div>
+    </div>
+  )
+}
+
+
 export default function Home() {
   const usuarioAleatorio = 'luizfelper'
-  const [comunidades, setComunidades] = React.useState(['Eu odeio acordar cedo']);
+  const [comunidades, setComunidades] = React.useState([{
+    title: 'Eu odeio acordar cedo',
+    image: 'https://alurakut.vercel.app/capa-comunidade-01.jpg'
+  }]);
   const pessoasFavoritas = ['juunegreiros','omariosouto','rafaballerini','marcobrunodev','luizfelper','felipefialho'];
-  const [comentarios, setComentarios] = React.useState(['Este é um comentário']);
+  const [comentariosTotais, setComentarios] = React.useState([{
+    usuario: 'luizfelper',
+    comentario: 'Isso é um comentário'
+  }]);
 
   return (
     <>
@@ -49,8 +75,14 @@ export default function Home() {
           <h2 className="subTitle">O que você deseja fazer?</h2>
           <form onSubmit={function handleCriarComunidade(e) {
             e.preventDefault();
+            const dadosDoForm = new FormData(e.target);
+
+            const comunidade = {
+              title: dadosDoForm.get('title'),
+              image: dadosDoForm.get('image')
+            }
             
-            const comunidadesAtualizadas = [...comunidades, 'Eu odeio acordar']
+            const comunidadesAtualizadas = [...comunidades, comunidade]
             setComunidades(comunidadesAtualizadas);
           }}>
             <div>
@@ -76,14 +108,28 @@ export default function Home() {
           <form onSubmit={function handleCriarComunidade(e) {
             e.preventDefault();
             
-            const comentariosAtualizados = [...comentarios, 'Comentário']
+            const dadosComentarios = new FormData(e.target);
+            const comentarios = {
+              usuario: dadosComentarios.get('user'),
+              comentario: dadosComentarios.get('comment')
+            }
+            
+            const comentariosAtualizados = [...comentarios, comentarios]
             setComentarios(comentariosAtualizados);
-            console.log(comentariosAtualizados)
+            console.log(comentariosAtualizados);
           }}>
             <div />
             <div>
+              <input placeholder="Usuario do Github"
+              name="user"
+              aria-label="Usuario do Github"
+              type="text"
+              />
+            </div>
+            <div />
+            <div>
               <input placeholder="Comentário..."
-              name="image"
+              name="comment"
               aria-label="Comentário..."
               type="text"
               />
@@ -93,11 +139,14 @@ export default function Home() {
         </Box>
 
         <Box> {/* Box dos Comentários */}
-          <h2 className="smallTitle">Comentários ({comentarios.length})</h2>
+          <h2 className="smallTitle">Comentários ({comentariosTotais.length})</h2>
           <div key="pComentários">
-            {comentarios.map((itemAtual) => {
+            {comentariosTotais.map((itemAtual) => {
               return (
-                <p>Comentário: {itemAtual}</p>
+                <div>
+                  <p>Usuario: {itemAtual.usuario}</p>
+                  <p>Comentário: {itemAtual.comentario}</p>
+                </div>
               )
             })}
           </div>
@@ -116,9 +165,9 @@ export default function Home() {
                 {comunidades.map((itemAtual) => {
                   return (
                     <li>
-                      <a href={`/users/${itemAtual}`} key={itemAtual}>
-                          <img src={`http://placehold.it/150x150`} />
-                          <span>{itemAtual}</span>
+                      <a href={`/users/${itemAtual.title}`} key={itemAtual.title}>
+                          <img src={itemAtual.image} />
+                          <span>{itemAtual.title}</span>
                       </a>
                     </li>
                   )
