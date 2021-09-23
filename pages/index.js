@@ -107,14 +107,14 @@ export default function Home() {
           <h2 className="subTitle">Enviar Comentário</h2>
           <form onSubmit={function handleCriarComunidade(e) {
             e.preventDefault();
-            
             const dadosComentarios = new FormData(e.target);
+
             const comentarios = {
               usuario: dadosComentarios.get('user'),
               comentario: dadosComentarios.get('comment')
             }
             
-            const comentariosAtualizados = [...comentarios, comentarios]
+            const comentariosAtualizados = [...comentariosTotais, comentarios]
             setComentarios(comentariosAtualizados);
             console.log(comentariosAtualizados);
           }}>
