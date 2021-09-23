@@ -36,7 +36,7 @@ function ProfileRelationsBox(propriedades){
 
 
 export default function Home(props) {
-  const usuarioAleatorio = props.githubUser; // props essa que está lá no final da página com o "Export Default"
+  const usuarioAleatorio = props.githubUser; // props essa que está lá no final da página com o "Export Default" verificar aqui
   const [comunidades, setComunidades] = React.useState([]);
  /* const comunidades = ['Alurakut']; */
  /* const alteradorDeComunidade = comunidades[1]; */
