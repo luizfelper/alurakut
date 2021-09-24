@@ -77,7 +77,7 @@ p {
 }
 
 img {
-    max-width: 100px;
+    max-width: 60px;
     border-radius: 8px;
 }
 
