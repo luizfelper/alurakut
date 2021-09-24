@@ -48,11 +48,13 @@ function AlurakutMenuProfileSidebar({ githubUser }) {
 export default function Home() {
   const usuarioAleatorio = 'luizfelper'
   const [comunidades, setComunidades] = React.useState([{
+    id: '0',
     title: 'Eu odeio acordar cedo',
     image: 'https://alurakut.vercel.app/capa-comunidade-01.jpg'
   }]);
   const pessoasFavoritas = ['juunegreiros','omariosouto','rafaballerini','marcobrunodev','luizfelper','felipefialho'];
   const [comentariosTotais, setComentarios] = React.useState([{
+    id: '1',
     usuario: 'luizfelper',
     comentario: 'Isso é um comentário'
   }]);
@@ -79,6 +81,7 @@ export default function Home() {
             const dadosDoForm = new FormData(e.target);
 
             const comunidade = {
+              id: new Date(toISOString()),
               title: dadosDoForm.get('title'),
               image: dadosDoForm.get('image')
             }
@@ -109,7 +112,8 @@ export default function Home() {
           <form onSubmit={function handleCriarComunidade(e) {
             e.preventDefault();
             const dadosComentarios = new FormData(e.target);
-
+            
+            console.log(TamanhoDoInput);
             const comentarios = {
               usuario: dadosComentarios.get('user'),
               comentario: dadosComentarios.get('comment')
@@ -128,7 +132,8 @@ export default function Home() {
             </div>
             <div />
             <div>
-              <input placeholder="Comentário..."
+              <input id="inputComentario"
+              placeholder="Comentário..."
               name="comment"
               aria-label="Comentário..."
               type="text"
@@ -144,7 +149,7 @@ export default function Home() {
           <ul key="pComentários">
             {comentariosTotais.map((itemAtual) => {
               return (
-                <li>
+                <li key={itemAtual.id}>
                   <div className="avatar">
                     <a href={`/users/${itemAtual.usuario}`} key={itemAtual.usuario}>
                       <img src={`https://github.com/${itemAtual.usuario}.png`} />
@@ -170,8 +175,8 @@ export default function Home() {
           <ul key="ulComunidades">
                 {comunidades.map((itemAtual) => {
                   return (
-                    <li>
-                      <a href={`/users/${itemAtual.title}`} key={itemAtual.title}>
+                    <li key={itemAtual.id}>
+                      <a href={`/users/${itemAtual.title}`}>
                           <img src={itemAtual.image} />
                           <span>{itemAtual.title}</span>
                       </a>
@@ -186,7 +191,7 @@ export default function Home() {
             <ul key="ulGaleraComunidade">
               {pessoasFavoritas.map((itemAtual) => {
                 return (
-                  <li>
+                  <li key={itemAtual}>
                     <a href={`/users/${itemAtual}`} key={itemAtual}>
                         <img src={`https://github.com/${itemAtual}.png`} />
                         <span>{itemAtual}</span>
