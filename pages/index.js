@@ -112,8 +112,7 @@ export default function Home() {
           <form onSubmit={function handleCriarComunidade(e) {
             e.preventDefault();
             const dadosComentarios = new FormData(e.target);
-            
-            console.log(TamanhoDoInput);
+
             const comentarios = {
               usuario: dadosComentarios.get('user'),
               comentario: dadosComentarios.get('comment')
