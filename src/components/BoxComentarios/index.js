@@ -79,6 +79,10 @@ p {
 img {
     max-width: 60px;
     border-radius: 8px;
+    transition: .3s;
+    &:hover {
+        opacity: .7;
+    }
 }
 
 .dados--comentarios {
