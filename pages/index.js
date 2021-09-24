@@ -151,12 +151,12 @@ export default function Home() {
               return (
                 <li key={itemAtual.id}>
                   <div className="avatar">
-                    <a href={`/users/${itemAtual.usuario}`} key={itemAtual.usuario}>
+                    <a href={`https://github.com/${itemAtual.usuario}`} key={itemAtual.usuario}>
                       <img src={`https://github.com/${itemAtual.usuario}.png`} />
                     </a>
                   </div>
                   <div className="dados--comentarios">
-                    <a href={`/users/${itemAtual.usuario}`} key={itemAtual.usuario}><p>@{itemAtual.usuario}</p></a>
+                    <a href={`https://github.com/${itemAtual.usuario}`} key={itemAtual.usuario}><p>@{itemAtual.usuario}</p></a>
                     <span>{itemAtual.comentario}</span>
                   </div>
                 </li>
