@@ -132,6 +132,7 @@ export default function Home() {
               name="comment"
               aria-label="Comentário..."
               type="text"
+              maxLength="50"
               />
             </div>
             <button>Adicionar comentário</button>

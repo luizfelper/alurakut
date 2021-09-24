@@ -65,6 +65,7 @@ ul {
 li {
     display: inline-flex;
     margin-top: 10px;
+    max-width: 100%;
 }
 
 a {
