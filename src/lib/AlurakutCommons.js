@@ -488,6 +488,7 @@ export const AlurakutStyles = css`
     }
   }
   input {
+    background-color: #F5F5F5;
     transition: .3s;
     outline: 0;
     &:disabled {
