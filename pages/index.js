@@ -3,6 +3,7 @@ import nookies from 'nookies';
 import jwt from 'jsonwebtoken';
 import MainGrid from '../src/components/MainGrid'
 import Box from '../src/components/Box'
+import BoxComentarios from '../src/components/BoxComentarios'
 import { AlurakutMenu, AlurakutProfileSidebarMenuDefault, OrkutNostalgicIconSet } from '../src/lib/AlurakutCommons'
 import { ProfileRelationsBoxWrapper } from '../src/components/ProfileRelations';
 
@@ -116,7 +117,6 @@ export default function Home() {
             
             const comentariosAtualizados = [...comentariosTotais, comentarios]
             setComentarios(comentariosAtualizados);
-            console.log(comentariosAtualizados);
           }}>
             <div />
             <div>
@@ -138,19 +138,26 @@ export default function Home() {
           </form>
         </Box>
 
-        <Box> {/* Box dos Comentários */}
+        <BoxComentarios> {/* Box dos Comentários */}
           <h2 className="smallTitle">Comentários ({comentariosTotais.length})</h2>
-          <div key="pComentários">
+          <ul key="pComentários">
             {comentariosTotais.map((itemAtual) => {
               return (
-                <div>
-                  <p>Usuario: {itemAtual.usuario}</p>
-                  <p>Comentário: {itemAtual.comentario}</p>
-                </div>
+                <li>
+                  <div className="avatar">
+                    <a href={`/users/${itemAtual.usuario}`} key={itemAtual.usuario}>
+                      <img src={`https://github.com/${itemAtual.usuario}.png`} />
+                    </a>
+                  </div>
+                  <div className="dados--comentarios">
+                    <a href={`/users/${itemAtual.usuario}`} key={itemAtual.usuario}><p>@{itemAtual.usuario}</p></a>
+                    <span>{itemAtual.comentario}</span>
+                  </div>
+                </li>
               )
             })}
-          </div>
-        </Box>
+          </ul>
+        </BoxComentarios>
 
 
         </div>
@@ -158,9 +165,7 @@ export default function Home() {
 
 
         <ProfileRelationsBoxWrapper> {/* Box das comunidades */}
-          <h2 className="smallTitle">
-                Comunidades ({comunidades.length})
-          </h2>
+          <h2 className="smallTitle">Comunidades ({comunidades.length})</h2>
           <ul key="ulComunidades">
                 {comunidades.map((itemAtual) => {
                   return (
@@ -175,10 +180,8 @@ export default function Home() {
           </ul>
         </ProfileRelationsBoxWrapper>
 
-          <ProfileRelationsBoxWrapper>
-            <h2 className="smallTitle">
-              Pessoas Favoritas ({pessoasFavoritas.length})
-            </h2>
+          <ProfileRelationsBoxWrapper> {/* Box das Pessoas Favoritas */}
+            <h2 className="smallTitle">Pessoas Favoritas ({pessoasFavoritas.length})</h2>
             <ul key="ulGaleraComunidade">
               {pessoasFavoritas.map((itemAtual) => {
                 return (
@@ -192,8 +195,6 @@ export default function Home() {
               })}
             </ul>
           </ProfileRelationsBoxWrapper>
-
-          {/* <ProfileRelationsBoxWrapper /> */}
         </div>
       </MainGrid>
     </>
