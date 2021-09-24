@@ -67,14 +67,18 @@ li {
     margin-top: 10px;
 }
 
-p {
+a {
     text-decoration: none;
+}
+
+p {
     color: black;
     font-weight: bold;
 }
 
 img {
     max-width: 100px;
+    border-radius: 8px;
 }
 
 .dados--comentarios {
