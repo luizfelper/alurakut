@@ -81,7 +81,7 @@ export default function Home() {
             const dadosDoForm = new FormData(e.target);
 
             const comunidade = {
-              id: '123135456',
+              id: new Date(),
               title: dadosDoForm.get('title'),
               image: dadosDoForm.get('image')
             }
