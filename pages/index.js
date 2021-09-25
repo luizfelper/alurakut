@@ -46,21 +46,26 @@ function AlurakutMenuProfileSidebar({ githubUser }) {
 
 function ProfileRelationsBox(propriedades) {
   return (
-    <ProfileRelationsBoxWrapper> {/* Box dos Amigos */}
+    <ProfileRelationsBoxWrapper> {/* Box dos Seguidores */}
       <h2 className="smallTitle">{propriedades.title} ({propriedades.items.length})
       </h2>
-      {/* <ul key="ulComunidades">
-        {seguidores.map((itemAtual) => {
+      <ul key="ulComunidades">
+        {propriedades.items.slice(0, 6).map((itemAtual) => {
           return (
-            <li key={itemAtual}>
-              <a href={`https://github.com/${itemAtual}.png`}>
-                <img src={itemAtual} />
-                <span>{itemAtual}</span>
+            <li key={itemAtual.id}>
+              <a href={itemAtual.html_url}>
+                <img src={itemAtual.avatar_url} />
+                <span>{itemAtual.login}</span>
               </a>
             </li>
-          )
+          );
         })}
-      </ul> */}
+      </ul>
+      <p>
+        <a className="boxLink" href={`/amigos`}>
+          Ver todos
+        </a>
+      </p>
     </ProfileRelationsBoxWrapper>
   )
 }
@@ -108,8 +113,6 @@ export default function Home() {
     .then(function (respostaCompleta) {
       const comunidadesVindaDoDato = respostaCompleta.data.allCommunities;
       const comentariosVindoDoDato = respostaCompleta.data.allComments;
-      console.log(comunidadesVindaDoDato);
-      console.log(comentariosVindoDoDato);
       setComunidades(comunidadesVindaDoDato);
       setComentarios(comentariosVindoDoDato);
     })
@@ -233,7 +236,7 @@ export default function Home() {
               {comunidades.map((itemAtual) => {
                 return (
                   <li key={itemAtual.id}>
-                    <a href={`/users/${itemAtual.title}`}>
+                    <a href={`/comunidades/${itemAtual.id}`}>
                       <img src={itemAtual.imageUrl} />
                       <span>{itemAtual.title}</span>
                     </a>
