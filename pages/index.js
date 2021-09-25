@@ -44,7 +44,7 @@ function AlurakutMenuProfileSidebar({ githubUser }) {
   )
 }
 
-function ProfileRelationsBox(propriedades) {
+function ProfileRelationsBox(propriedades) { // Nesse caso com as propriedades é obrigatório setar o que vocêr quer mostrar no caso itemAtual.AlgumaCoisa
   return (
     <ProfileRelationsBoxWrapper> {/* Box dos Seguidores */}
       <h2 className="smallTitle">{propriedades.title} ({propriedades.items.length})
