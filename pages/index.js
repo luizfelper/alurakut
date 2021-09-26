@@ -1,6 +1,7 @@
 import React from 'react';
 import nookies from 'nookies';
 import jwt from 'jsonwebtoken';
+import {useCheckAuth} from '../src/hooks/useCheckAuth';
 import MainGrid from '../src/components/MainGrid'
 import Box from '../src/components/Box'
 import BoxComentarios from '../src/components/BoxComentarios'
@@ -303,24 +304,27 @@ export default function Home(props) {
 
 
 export async function getServerSideProps(context){
-  const userToken = await nookies.get(context).token;
-
-  const isAuthenticated = await useCheckAuth(userToken);
-
-  if (!isAuthenticated) {
+  const cookies = nookies.get(context)
+  const token = cookies.USER_TOKEN;
+  const { isAuthenticated } = await fetch('https://alurakut.vercel.app/api/auth', {
+    headers: {
+      Authorization: token
+    }
+  })
+  .then((resposta) => resposta.json())
+  console.log('Usuário Logado: ', isAuthenticated);
+  if(!isAuthenticated) {
     return {
       redirect: {
         destination: '/login',
-        permanet: false,
+        permanent: false,
       }
     }
   }
-
-  const { githubUser } = jwt.decode(userToken);
-
+  const { githubUser } = jwt.decode(token);
   return {
     props: {
-      githubUser: githubUser,
-    },
-  };
+      githubUser
+    }, //will be passed to the page component as props
+  }
 }
