@@ -1,7 +1,6 @@
 import React from 'react';
 import nookies from 'nookies';
 import jwt from 'jsonwebtoken';
-import {useCheckAuth} from '../src/hooks/useCheckAuth';
 import MainGrid from '../src/components/MainGrid'
 import Box from '../src/components/Box'
 import BoxComentarios from '../src/components/BoxComentarios'
