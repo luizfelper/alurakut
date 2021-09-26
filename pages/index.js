@@ -220,7 +220,12 @@ export default function Home() {
                   name="comment"
                   aria-label="Comentário..."
                   type="text"
-                  maxLength="50"
+                  onChange={(event) => {
+                    const inputComments = event.target.value;
+                    if(inputComments.length >= 50) {
+                      alert('teste');
+                  }
+                  }}
                 />
               </div>
               <button>Adicionar comentário</button>
