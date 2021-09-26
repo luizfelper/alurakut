@@ -186,7 +186,7 @@ export default function Home(props) {
               const dadosComentarios = new FormData(e.target);
 
               const comentarios = {
-                nome: dadosComentarios.get('user'),
+                nome: usuarioAleatorio,
                 comentario: dadosComentarios.get('comment'),
                 creatorSlug: usuarioAleatorio,
               }
@@ -206,13 +206,13 @@ export default function Home(props) {
                 })
             }}>
               <div />
-              <div>
+              {/* <div>
                 <input placeholder="Usuario do Github"
                   name="user"
                   aria-label="Usuario do Github"
                   type="text"
                 />
-              </div>
+              </div> */}
               <div />
               <div>
                 <input id="inputComentario"
