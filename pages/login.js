@@ -32,7 +32,10 @@ export default function LoginScreen() {
                                 setGitHubUser(event.target.value);
                             }}
                         />
-
+                            {gitHubUser.length === 0 //O if dentro do React não funciona, vai ter que usar ternário
+                            ? 'Preencha o campo' // Se for igual a zero mostra essa mensagem
+                            : '' // Senão...
+                        } 
                         <button onClick={(e) => {
                             e.preventDefault();
                             router.push('/', {});
