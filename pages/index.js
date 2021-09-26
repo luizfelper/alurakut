@@ -302,14 +302,25 @@ export default function Home(props) {
 }
 
 
-export async function getServerSideProps(context) {
-  const cookies = nookies.get(context)
-  const token = cookies.USER_TOKEN;
-  const {githubUser} = jwt.decode(token).githubUser;
-  
-  return {
-    props: {
-      githubUser
+export async function getServerSideProps(context){
+  const userToken = await nookies.get(context).token;
+
+  const isAuthenticated = await useCheckAuth(userToken);
+
+  if (!isAuthenticated) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanet: false,
+      }
     }
   }
+
+  const { githubUser } = jwt.decode(userToken);
+
+  return {
+    props: {
+      githubUser: githubUser,
+    },
+  };
 }
