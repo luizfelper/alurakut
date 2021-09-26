@@ -79,7 +79,7 @@ export default function Home(props) {
   const [seguidores, setSeguidores] = React.useState([]);
   React.useEffect(function () {
     //Aqui faz um GET pro GitHub
-    fetch('https://api.github.com/users/luizfelper/followers')
+    fetch(`https://api.github.com/users/${usuarioAleatorio}/followers`)
       .then(function (respostaDoGitHub) { //Recebe resposta Do GitHub mas em Chunks.
         return respostaDoGitHub.json(); //Transforma a resposta em Json.
       })
