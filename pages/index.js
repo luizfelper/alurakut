@@ -77,9 +77,9 @@ export default function Home() {
   const [comentariosTotais, setComentarios] = React.useState([]);
 
   const [seguidores, setSeguidores] = React.useState([]);
-    React.useEffect(function() {
-      //Aqui faz um GET pro GitHub
-      fetch('https://api.github.com/users/luizfelper/followers')
+  React.useEffect(function () {
+    //Aqui faz um GET pro GitHub
+    fetch('https://api.github.com/users/luizfelper/followers')
       .then(function (respostaDoGitHub) { //Recebe resposta Do GitHub mas em Chunks.
         return respostaDoGitHub.json(); //Transforma a resposta em Json.
       })
@@ -91,11 +91,12 @@ export default function Home() {
     fetch('https://graphql.datocms.com/', {
       method: 'POST',
       headers: {
-        'Authorization' : 'e945a0b1d22509980db5af89d719e2',
-        'Content-Type' : 'application/json',
+        'Authorization': 'e945a0b1d22509980db5af89d719e2',
+        'Content-Type': 'application/json',
         'Accept': 'application/json'
       },
-      body: JSON.stringify({ "query": `query {
+      body: JSON.stringify({
+        "query": `query {
         allCommunities {
           id,
           title,
@@ -109,15 +110,15 @@ export default function Home() {
         }
       }`})
     })
-    .then((resposta) => resposta.json()) //Pega o retorno do resposta.json e já retorna
-    .then(function (respostaCompleta) {
-      const comunidadesVindaDoDato = respostaCompleta.data.allCommunities;
-      const comentariosVindoDoDato = respostaCompleta.data.allComments;
-      setComunidades(comunidadesVindaDoDato);
-      setComentarios(comentariosVindoDoDato);
-    })
-      
-    },[])
+      .then((resposta) => resposta.json()) //Pega o retorno do resposta.json e já retorna
+      .then(function (respostaCompleta) {
+        const comunidadesVindaDoDato = respostaCompleta.data.allCommunities;
+        const comentariosVindoDoDato = respostaCompleta.data.allComments;
+        setComunidades(comunidadesVindaDoDato);
+        setComentarios(comentariosVindoDoDato);
+      })
+
+  }, [])
 
   return (
     <>
@@ -141,13 +142,24 @@ export default function Home() {
               const dadosDoForm = new FormData(e.target);
 
               const comunidade = {
-                id: new Date(),
                 title: dadosDoForm.get('title'),
-                image: dadosDoForm.get('image')
+                imageUrl: dadosDoForm.get('image'),
+                creatorSlug: usuarioAleatorio,
               }
 
-              const comunidadesAtualizadas = [...comunidades, comunidade]
-              setComunidades(comunidadesAtualizadas);
+              fetch('/api/comunidades', { //Dando um Fecth na api local onde a API local vai solicitar o DATOCSM
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(comunidade)
+              })
+                .then(async function (response) {
+                  const dados = await response.json();
+                  const comunidade = dados.registroCriado;
+                  const comunidadesAtualizadas = [...comunidades, comunidade]
+                  setComunidades(comunidadesAtualizadas);
+                })
             }}>
               <div>
                 <input placeholder="Qual vai ser o nome da sua comunidade?"
@@ -228,12 +240,12 @@ export default function Home() {
 
         <div className="profileRelationsArea" style={{ gridArea: 'profileRelationsArea' }}>
 
-          <ProfileRelationsBox title="Seguidores" items={seguidores}/>
+          <ProfileRelationsBox title="Seguidores" items={seguidores} />
 
           <ProfileRelationsBoxWrapper> {/* Box das comunidades */}
             <h2 className="smallTitle">Comunidades ({comunidades.length})</h2>
             <ul key="ulComunidades">
-              {comunidades.map((itemAtual) => {
+              {comunidades.slice(0, 6).map((itemAtual) => {
                 return (
                   <li key={itemAtual.id}>
                     <a href={`/comunidades/${itemAtual.id}`}>
@@ -244,6 +256,11 @@ export default function Home() {
                 )
               })}
             </ul>
+            <p>
+              <a className="boxLink" href={`/comunidades`}>
+                Ver todos
+              </a>
+            </p>
           </ProfileRelationsBoxWrapper>
 
           <ProfileRelationsBoxWrapper> {/* Box das Pessoas Favoritas */}

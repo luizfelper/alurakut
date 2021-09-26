@@ -1102,10 +1102,10 @@ data-uri-to-buffer@3.0.1:
   resolved "https://registry.yarnpkg.com/data-uri-to-buffer/-/data-uri-to-buffer-3.0.1.tgz#594b8973938c5bc2c33046535785341abc4f3636"
   integrity sha512-WboRycPNsVw3B3TL559F7kuBUM4d8CgMEvk6xEJlOp7OBPjt6G7z8WMWlD2rOFZLk6OYfFIUGsCOWzcQH9K2og==
 
-datocms-client@^3.4.11:
-  version "3.4.11"
-  resolved "https://registry.yarnpkg.com/datocms-client/-/datocms-client-3.4.11.tgz#933763c56ea085afbb4c4d117446425f4d9fdff8"
-  integrity sha512-ne5gwu+yfYVhFRghnpdX+MqobenOpFDtEN4IMEtN+eS69sXDy19T8oj99dX+JA3v/OvbybVcFtmmSPhzBbSAoQ==
+datocms-client@^3.4.16:
+  version "3.4.16"
+  resolved "https://registry.yarnpkg.com/datocms-client/-/datocms-client-3.4.16.tgz#234c65c8886ca2defd23fe46a660f4f2fdf2ff0c"
+  integrity sha512-B2Ohp5Uz0w1FXOReCrrhObHUN43cHv8p0O0UW83QnecHqIUbz/aaHz4/GYMxkSOvNQgbIrj0QG7FjKl2hjrWhA==
   dependencies:
     "@iarna/toml" "^2.2.3"
     arr-diff "^4.0.0"
