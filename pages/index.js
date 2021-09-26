@@ -70,8 +70,8 @@ function ProfileRelationsBox(propriedades) { // Nesse caso com as propriedades Ã
   )
 }
 
-export default function Home() {
-  const usuarioAleatorio = 'luizfelper'
+export default function Home(props) {
+  const usuarioAleatorio = props.githubUser;
   const [comunidades, setComunidades] = React.useState([]);
   const pessoasFavoritas = ['enioluciano', 'omariosouto', 'rafaballerini', 'marcobrunodev', 'luizfelper', 'doutoramon'];
   const [comentariosTotais, setComentarios] = React.useState([]);
@@ -299,4 +299,14 @@ export default function Home() {
       </MainGrid>
     </>
   )
+}
+
+
+export async function getServerSideProps(context) {
+  console.log('Cookies', nookies.get(context).USER_TOKEN);
+  return {
+    props: {
+      githubUser: 'omariosouto'
+    }
+  }
 }
