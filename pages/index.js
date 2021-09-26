@@ -63,7 +63,7 @@ function ProfileRelationsBox(propriedades) { // Nesse caso com as propriedades Ã
       </ul>
       <p>
         <a className="boxLink" href={`/amigos`}>
-          Ver todos
+          Ver mais...
         </a>
       </p>
     </ProfileRelationsBoxWrapper>
@@ -270,7 +270,7 @@ export default function Home() {
             </ul>
             <p>
               <a className="boxLink" href={`/comunidades`}>
-                Ver todos
+                Ver mais...
               </a>
             </p>
           </ProfileRelationsBoxWrapper>
