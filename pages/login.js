@@ -52,10 +52,7 @@ export default function LoginScreen() {
                         ? 'Preencha o campo' // Se for igual a zero mostra essa mensagem
                         : '' // Senão...
                     }
-                    <button onClick={(e) => {
-                        e.preventDefault();
-                        router.push('/', {});
-                    }} type="submit">
+                    <button type="submit">
                         Login
                     </button>
                 </form>
