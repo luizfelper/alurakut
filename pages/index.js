@@ -203,7 +203,6 @@ export default function Home() {
                   const comentarios = dados.registroCriado;
                   const comentariosAtualizados = [...comentariosTotais, comentarios]
                   setComentarios(comentariosAtualizados);
-                  console.log(comentariosAtualizados);
                 })
             }}>
               <div />
