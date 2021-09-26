@@ -73,7 +73,7 @@ function ProfileRelationsBox(propriedades) { // Nesse caso com as propriedades Ã
 export default function Home() {
   const usuarioAleatorio = 'luizfelper'
   const [comunidades, setComunidades] = React.useState([]);
-  const pessoasFavoritas = ['juunegreiros', 'omariosouto', 'rafaballerini', 'marcobrunodev', 'luizfelper', 'felipefialho'];
+  const pessoasFavoritas = ['enioluciano', 'omariosouto', 'rafaballerini', 'marcobrunodev', 'luizfelper', 'doutoramon'];
   const [comentariosTotais, setComentarios] = React.useState([]);
 
   const [seguidores, setSeguidores] = React.useState([]);
@@ -186,12 +186,25 @@ export default function Home() {
               const dadosComentarios = new FormData(e.target);
 
               const comentarios = {
-                usuario: dadosComentarios.get('user'),
-                comentario: dadosComentarios.get('comment')
+                nome: dadosComentarios.get('user'),
+                comentario: dadosComentarios.get('comment'),
+                creatorSlug: usuarioAleatorio,
               }
 
-              const comentariosAtualizados = [...comentariosTotais, comentarios]
-              setComentarios(comentariosAtualizados);
+              fetch('/api/comentarios', { //Dando um Fecth na api local onde a API local vai solicitar o DATOCSM
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(comentarios)
+              })
+                .then(async function (response) {
+                  const dados = await response.json();
+                  const comentarios = dados.registroCriado;
+                  const comentariosAtualizados = [...comentariosTotais, comentarios]
+                  setComentarios(comentariosAtualizados);
+                  console.log(comentariosAtualizados);
+                })
             }}>
               <div />
               <div>
